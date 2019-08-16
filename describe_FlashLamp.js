@@ -1,46 +1,40 @@
 let Battery = function () {
-    this.setEnergy = function (ennergy) {
-        this.ennergy = ennergy;
+    this.setEnergy = function (energy) {
+        this.energy = energy;
     };
     this.getEnergy = function () {
-        return this.ennergy;
+        return this.energy;
     };
     this.decreaseEnergy = function () {
-        if (this.ennergy > 0) {
-            this.ennergy--;
+        if (this.energy > 0) {
+            this.energy--;
         }
     }
 };
-let FlashLamp = function () {
-    this.setBattery = function (battery) {
-        this.bettery = battery;
-    };
-    this.getBatteryInfo = function () {
-        return this.bettery.getEnergy();
-    };
-    this.light = function () {
-        if (this.status) {
-            alert("lighting");
+let flashLamp = function (pin) {
+    this.isOff=true;
+    this.turnOnOff = function () {
+        if(pin.getEnergy()>0){
+            if (this.isOff){
+                this.isOff=false;
+                pin.decreaseEnergy();
+                return 'den bat';
+            } else {
+                this.isOff=true;
+                return 'den tat'
+            }
         } else {
-            alert("Not lighting");
-        }
-        this.turnOn = function () {
-            this.status = true;
-        };
-        this.turnOff = function () {
-            this.status = false;
+            return 'het pin roi!';
         }
     }
 };
 
-let batterry = new Battery();
-batterry.setEnergy(10);
+let pin = new Battery();
+pin.setEnergy(10);
+let lamp = new flashLamp(pin);
 
-let flashLamp = new FlashLamp();
-flashLamp.setBattery(batterry);
-document.write("Battery info:" + flashLamp.getBatteryInfo() + "<br>");
-flashLamp.light();
-document.write('Turn off+ "<br>"');
-flashLamp.turnOff();
-flashLamp.light();
+function turnOnOff() {
+    document.getElementById('display').innerHTML = lamp.turnOnOff() +
+        '<br>' +  pin.getEnergy() +"%";
+}
 
